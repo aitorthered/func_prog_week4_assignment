@@ -67,6 +67,15 @@ class HuffmanSuite {
   @Test def `make ordered leaf list for one element`: Unit =
     assertEquals(List(Leaf('x', 3)), makeOrderedLeafList(List(('x', 3))))
 
+  @Test def `singleton list of single leaf`: Unit =
+    assertEquals(true, singleton(List(Leaf('x', 3))))
+
+  @Test def `singleton list of empty list`: Unit =
+    assertEquals(false, singleton(List[CodeTree]()))
+
+  @Test def `singleton list of non single leaf`: Unit =
+    assertEquals(false, singleton(List(Leaf('x', 3), Leaf('a', 3))))
+
   @Test def `combine of some leaf list (15pts)`: Unit = {
     val leaflist = List(Leaf('e', 1), Leaf('t', 2), Leaf('x', 4))
     assertEquals(List(Fork(Leaf('e', 1), Leaf('t', 2), List('e', 't'), 3), Leaf('x', 4)), combine(leaflist))
