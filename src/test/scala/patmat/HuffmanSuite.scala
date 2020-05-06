@@ -83,7 +83,7 @@ class HuffmanSuite {
 
   @Test def `combine of 2 elements`: Unit = {
     val leaflist = List(Leaf('e', 1), Leaf('x', 4))
-    assertEquals(List(Fork(Leaf('e',1),Leaf('x',4),List('e', 'x'),5)), combine(leaflist))
+    assertEquals(List(Fork(Leaf('e', 1), Leaf('x', 4), List('e', 'x'), 5)), combine(leaflist))
   }
 
   @Test def `combine of 1 elements`: Unit = {
@@ -94,6 +94,38 @@ class HuffmanSuite {
   @Test def `combine of empty list`: Unit = {
     val leaflist = List()
     assertEquals(List(), combine(leaflist))
+  }
+
+  @Test def `until of some leaf list`: Unit = {
+    val trees = List(Leaf('e', 1), Leaf('t', 2), Leaf('x', 4), Leaf('q', 5))
+    assertEquals(
+      List(Fork(Leaf('q', 5), Fork(Fork(Leaf('e', 1), Leaf('t', 2), List('e', 't'), 3), Leaf('x', 4), List('e', 't', 'x'), 7), List('q', 'e', 't', 'x'), 12)),
+      until(singleton, combine)(trees)
+    )
+  }
+
+  @Test def `until of 2 leaf list`: Unit = {
+    val trees = List(Leaf('e', 1), Leaf('q', 5))
+    assertEquals(
+      List(Fork(Leaf('e', 1), Leaf('q', 5), List('e', 'q'), 6)),
+      until(singleton, combine)(trees)
+    )
+  }
+
+  @Test def `until of 1 leaf list`: Unit = {
+    val trees = List(Leaf('q', 5))
+    assertEquals(
+      List(Leaf('q', 5)),
+      until(singleton, combine)(trees)
+    )
+  }
+
+  @Test def `until of empty leaf list`: Unit = {
+    val trees = List()
+    assertEquals(
+      List(),
+      until(singleton, combine)(trees)
+    )
   }
 
   @Test def `decode and encode a very short text should be identity (10pts)`: Unit =
@@ -107,4 +139,5 @@ class HuffmanSuite {
     val t1 = Fork(Leaf('a', 2), Leaf('b', 3), List('a', 'b'), 5)
     val t2 = Fork(Fork(Leaf('a', 2), Leaf('b', 3), List('a', 'b'), 5), Leaf('d', 4), List('a', 'b', 'd'), 9)
   }
+
 }
