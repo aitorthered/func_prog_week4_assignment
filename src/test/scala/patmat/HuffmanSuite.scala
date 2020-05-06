@@ -4,11 +4,12 @@ import org.junit._
 import org.junit.Assert.assertEquals
 
 class HuffmanSuite {
+
   import Huffman._
 
   trait TestTrees {
-    val t1 = Fork(Leaf('a',2), Leaf('b',3), List('a','b'), 5)
-    val t2 = Fork(Fork(Leaf('a',2), Leaf('b',3), List('a','b'), 5), Leaf('d',4), List('a','b','d'), 9)
+    val t1 = Fork(Leaf('a', 2), Leaf('b', 3), List('a', 'b'), 5)
+    val t2 = Fork(Fork(Leaf('a', 2), Leaf('b', 3), List('a', 'b'), 5), Leaf('d', 4), List('a', 'b', 'd'), 9)
   }
 
 
@@ -19,17 +20,45 @@ class HuffmanSuite {
 
   @Test def `weight of a single leaf `: Unit =
     new TestTrees {
-      assertEquals(2, weight(Leaf('a',2)))
+      assertEquals(2, weight(Leaf('a', 2)))
     }
 
   @Test def `chars of a larger tree (10pts)`: Unit =
     new TestTrees {
-      assertEquals(List('a','b','d'), chars(t2))
+      assertEquals(List('a', 'b', 'd'), chars(t2))
     }
 
   @Test def `chars of a leaf`: Unit =
     new TestTrees {
-      assertEquals(List('a'), chars(Leaf('a',2)))
+      assertEquals(List('a'), chars(Leaf('a', 2)))
+    }
+
+  @Test def `times hello world`: Unit =
+    new TestTrees {
+      assertEquals(
+        List(('h', 1), ('e', 1), ('l', 3), ('o', 2), (',', 1), (' ', 1), ('w', 1), ('r', 1), ('d', 1)),
+        times(List('h', 'e', 'l', 'l', 'o', ',', ' ', 'w', 'o', 'r', 'l', 'd')))
+    }
+
+  @Test def `times lll`: Unit =
+    new TestTrees {
+      assertEquals(
+        List(('l', 3)),
+        times(List('l', 'l', 'l')))
+    }
+
+  @Test def `times l`: Unit =
+    new TestTrees {
+      assertEquals(
+        List(('l', 1)),
+        times(List('l')))
+    }
+
+  @Test def `times empty list`: Unit =
+    new TestTrees {
+      assertEquals(
+        List[(Char, Int)](),
+        times(List()))
     }
 
   @Test def `string2chars hello world`: Unit =
@@ -37,12 +66,12 @@ class HuffmanSuite {
 
 
   @Test def `make ordered leaf list for some frequency table (15pts)`: Unit =
-    assertEquals(List(Leaf('e',1), Leaf('t',2), Leaf('x',3)), makeOrderedLeafList(List(('t', 2), ('e', 1), ('x', 3))))
+    assertEquals(List(Leaf('e', 1), Leaf('t', 2), Leaf('x', 3)), makeOrderedLeafList(List(('t', 2), ('e', 1), ('x', 3))))
 
 
   @Test def `combine of some leaf list (15pts)`: Unit = {
     val leaflist = List(Leaf('e', 1), Leaf('t', 2), Leaf('x', 4))
-    assertEquals(List(Fork(Leaf('e',1),Leaf('t',2),List('e', 't'),3), Leaf('x',4)), combine(leaflist))
+    assertEquals(List(Fork(Leaf('e', 1), Leaf('t', 2), List('e', 't'), 3), Leaf('x', 4)), combine(leaflist))
   }
 
 

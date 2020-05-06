@@ -70,7 +70,13 @@ trait Huffman extends HuffmanInterface {
    *       println("integer is  : "+ theInt)
    *   }
    */
-  def times(chars: List[Char]): List[(Char, Int)] = ???
+  def times(chars: List[Char]): List[(Char, Int)] = {
+    def iteration(accumulated: List[(Char, Int)], theChar: Char):List[(Char, Int)] = accumulated match{
+      case Nil => List((theChar, 1))
+      case x::xs => if(x._1 == theChar) (x._1, x._2+1)::xs else x::iteration(xs, theChar)
+    }
+    chars.foldLeft[List[(Char, Int)]](Nil)(iteration)
+  }
 
   /**
    * Returns a list of `Leaf` nodes for a given frequency table `freqs`.
