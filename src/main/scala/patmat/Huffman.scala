@@ -71,7 +71,7 @@ trait Huffman extends HuffmanInterface {
    *   }
    */
   def times(chars: List[Char]): List[(Char, Int)] = {
-    def iteration(accumulated: List[(Char, Int)], theChar: Char):List[(Char, Int)] = accumulated match{
+    def iteration(restOfList: List[(Char, Int)], theChar: Char):List[(Char, Int)] = restOfList match{
       case Nil => List((theChar, 1))
       case x::xs => if(x._1 == theChar) (x._1, x._2+1)::xs else x::iteration(xs, theChar)
     }
