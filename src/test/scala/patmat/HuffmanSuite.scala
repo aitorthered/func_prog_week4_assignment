@@ -22,10 +22,14 @@ class HuffmanSuite {
       assertEquals(2, weight(Leaf('a',2)))
     }
 
-
   @Test def `chars of a larger tree (10pts)`: Unit =
     new TestTrees {
       assertEquals(List('a','b','d'), chars(t2))
+    }
+
+  @Test def `chars of a leaf`: Unit =
+    new TestTrees {
+      assertEquals(List('a'), chars(Leaf('a',2)))
     }
 
   @Test def `string2chars hello world`: Unit =
