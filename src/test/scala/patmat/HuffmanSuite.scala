@@ -17,6 +17,11 @@ class HuffmanSuite {
       assertEquals(5, weight(t1))
     }
 
+  @Test def `weight of a single leaf `: Unit =
+    new TestTrees {
+      assertEquals(2, weight(Leaf('a',2)))
+    }
+
 
   @Test def `chars of a larger tree (10pts)`: Unit =
     new TestTrees {
