@@ -110,7 +110,19 @@ trait Huffman extends HuffmanInterface {
    * If `trees` is a list of less than two elements, that list should be returned
    * unchanged.
    */
-  def combine(trees: List[CodeTree]): List[CodeTree] = ???
+  def combine(trees: List[CodeTree]): List[CodeTree] = {
+    def makeOrderedCodeTreeList(list: List[CodeTree]): List[CodeTree] = {
+      def iterationCodeTree(restOfList: List[CodeTree], theCodeTree: CodeTree):List[CodeTree] = restOfList match{
+        case Nil => List(theCodeTree)
+        case x::xs => if(weight(theCodeTree) < weight(x)) theCodeTree::x::xs else x::iterationCodeTree(xs, theCodeTree)
+      }
+      list.foldLeft[List[CodeTree]](Nil)(iterationCodeTree)
+    }
+
+    if(trees.length < 2) trees
+    else
+      makeOrderedCodeTreeList(makeCodeTree(trees.head, trees.tail.head)::trees.tail.tail)
+  }
 
   /**
    * This function will be called in the following way:

@@ -81,6 +81,21 @@ class HuffmanSuite {
     assertEquals(List(Fork(Leaf('e', 1), Leaf('t', 2), List('e', 't'), 3), Leaf('x', 4)), combine(leaflist))
   }
 
+  @Test def `combine of 2 elements`: Unit = {
+    val leaflist = List(Leaf('e', 1), Leaf('x', 4))
+    assertEquals(List(Fork(Leaf('e',1),Leaf('x',4),List('e', 'x'),5)), combine(leaflist))
+  }
+
+  @Test def `combine of 1 elements`: Unit = {
+    val leaflist = List(Fork(Leaf('e', 1), Leaf('t', 2), List('e', 't'), 3))
+    assertEquals(List(Fork(Leaf('e', 1), Leaf('t', 2), List('e', 't'), 3)), combine(leaflist))
+  }
+
+  @Test def `combine of empty list`: Unit = {
+    val leaflist = List()
+    assertEquals(List(), combine(leaflist))
+  }
+
   @Test def `decode and encode a very short text should be identity (10pts)`: Unit =
     new TestTrees {
       assertEquals("ab".toList, decode(t1, encode(t1)("ab".toList)))
