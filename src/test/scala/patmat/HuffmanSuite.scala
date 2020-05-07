@@ -166,11 +166,30 @@ class HuffmanSuite {
       assertEquals("ab".toList, decode(t1, encode(t1)("ab".toList)))
     }
 
+  @Test def `codeBits for single char a`: Unit =
+    new TestCodeBits {
+      assertEquals(List(0), codeBits(codeTable)('a'))
+    }
+
+  @Test def `codeBits for single char b`: Unit =
+    new TestCodeBits {
+      assertEquals(List(1,0), codeBits(codeTable)('b'))
+    }
+
+  @Test def `codeBits for single char c`: Unit =
+    new TestCodeBits {
+      assertEquals(List(1,1), codeBits(codeTable)('c'))
+    }
+
   @Rule def individualTestTimeout = new org.junit.rules.Timeout(10 * 1000)
 
   trait TestTrees {
     val t1 = Fork(Leaf('a', 2), Leaf('b', 3), List('a', 'b'), 5)
     val t2 = Fork(Fork(Leaf('a', 2), Leaf('b', 3), List('a', 'b'), 5), Leaf('d', 4), List('a', 'b', 'd'), 9)
+  }
+
+  trait TestCodeBits {
+    val codeTable = List(('a',List(0)),('b',List(1,0)),('c',List(1,1)))
   }
 
 }
