@@ -128,6 +128,21 @@ class HuffmanSuite {
     )
   }
 
+  @Test def `createCodeTree of string hello world`: Unit = {
+    val trees = string2Chars("helloworldll")
+    assertEquals(
+      Fork(Leaf('l', 5), Fork(Fork(Leaf('d', 1), Fork(Leaf('w', 1), Leaf('r', 1), List('w', 'r'), 2), List('d', 'w', 'r'), 3), Fork(Fork(Leaf('h', 1), Leaf('e', 1), List('h', 'e'), 2), Leaf('o', 2), List('h', 'e', 'o'), 4), List('d', 'w', 'r', 'h', 'e', 'o'), 7), List('l', 'd', 'w', 'r', 'h', 'e', 'o'), 12),
+      createCodeTree(trees)
+    )
+  }
+
+  @Test def `decodedSecret test`: Unit = {
+    assertEquals(
+      List('h', 'u', 'f', 'f', 'm', 'a', 'n', 'e', 's', 't', 'c', 'o', 'o', 'l'),
+      decodedSecret
+    )
+  }
+
   @Test def `decode and encode a very short text should be identity (10pts)`: Unit =
     new TestTrees {
       assertEquals("ab".toList, decode(t1, encode(t1)("ab".toList)))

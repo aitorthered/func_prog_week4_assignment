@@ -146,7 +146,9 @@ trait Huffman extends HuffmanInterface {
    * The parameter `chars` is an arbitrary text. This function extracts the character
    * frequencies from that text and creates a code tree based on them.
    */
-  def createCodeTree(chars: List[Char]): CodeTree = ???
+  def createCodeTree(chars: List[Char]): CodeTree = {
+    (until(singleton, combine)(makeOrderedLeafList ( times(chars)))).head
+  }
 
 
   // Part 3: Decoding
@@ -157,7 +159,29 @@ trait Huffman extends HuffmanInterface {
    * This function decodes the bit sequence `bits` using the code tree `tree` and returns
    * the resulting list of characters.
    */
-  def decode(tree: CodeTree, bits: List[Bit]): List[Char] = ???
+  def decode(tree: CodeTree, bits: List[Bit]): List[Char] = {
+    def getNextCodeTree(left: CodeTree, right: CodeTree, bit: Bit): CodeTree = if(bit == 1) right else left
+
+    def iteration(nexTree: CodeTree, bitsLeft: List[Bit], decodedText: List[Char]): List[Char] = {
+      if(bitsLeft.isEmpty) decodedText
+      else{
+        nexTree match {
+          case Leaf(char, _) => iteration(tree, bitsLeft.tail , decodedText.appended(char))
+          case Fork(left, right, chars, weight) => {
+            val next = getNextCodeTree(left, right, bitsLeft.head)
+            next match {
+              case Leaf(char, _) => iteration(tree, bitsLeft.tail, decodedText.appended(char))
+              case Fork(_, _, _, _) => iteration(next, bitsLeft.tail, decodedText)
+            }
+          }
+        }
+
+      }
+
+    }
+
+    iteration(tree, bits, List[Char]())
+  }
 
   /**
    * A Huffman coding tree for the French language.
@@ -175,7 +199,7 @@ trait Huffman extends HuffmanInterface {
   /**
    * Write a function that returns the decoded secret
    */
-  def decodedSecret: List[Char] = ???
+  def decodedSecret: List[Char] = decode(frenchCode, secret)
 
 
   // Part 4a: Encoding using Huffman tree
