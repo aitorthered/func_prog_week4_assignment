@@ -208,7 +208,35 @@ trait Huffman extends HuffmanInterface {
    * This function encodes `text` using the code tree `tree`
    * into a sequence of bits.
    */
-  def encode(tree: CodeTree)(text: List[Char]): List[Bit] = ???
+  def encode(tree: CodeTree)(text: List[Char]): List[Bit] = {
+    def encodeChar(currentTree: CodeTree, charToEncode: Char, encodedChar: List[Bit]): List[Bit] = {
+      currentTree match {
+        case Leaf(_, _) => encodedChar
+        case Fork(left, right, _, _) => {
+          if( chars(left).contains(charToEncode)){
+            encodeChar(left, charToEncode, encodedChar.appended(0))
+          }
+          else if( chars(right).contains(charToEncode)){
+            encodeChar(right, charToEncode, encodedChar.appended(1))
+          }
+          else
+            throw new Exception("Error! Char not no encoding Tree")
+        }
+      }
+    }
+
+    def iteration(pendingText: List[Char], encodedBits: List[Bit]): List[Bit] = {
+      if(pendingText.isEmpty) {
+        encodedBits
+      }
+      else {
+        iteration(pendingText.tail, encodedBits:::encodeChar(tree, pendingText.head, List[Bit]()) )
+        //iteration(pendingText.tail, 0::encodeChar(tree, pendingText.head, List[Bit]()) )
+      }
+    }
+
+    iteration(text, List[Bit]())
+  }
 
   // Part 4b: Encoding using code table
 
